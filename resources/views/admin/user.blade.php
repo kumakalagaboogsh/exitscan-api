@@ -377,6 +377,119 @@
 		.action-delete {
 			color: #ef4444;
 		}
+
+		.office-card {
+			background: #ffffff;
+			border-radius: 12px;
+			border: 1px solid #e8ecf1;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+			padding: 14px 0 0;
+			overflow: hidden;
+		}
+
+		.office-card-head {
+			padding: 0 16px 10px;
+		}
+
+		.office-title {
+			margin: 0;
+			font-size: 20px;
+			font-weight: 600;
+			color: #1f2937;
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.office-title svg {
+			width: 18px;
+			height: 18px;
+			color: #4b5cd1;
+		}
+
+		.office-total {
+			margin: 8px 0 0;
+			font-size: 14px;
+			color: #475569;
+		}
+
+		.office-table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		.office-table th,
+		.office-table td {
+			padding: 10px 16px;
+			text-align: left;
+			font-size: 13px;
+		}
+
+		.office-table th {
+			font-weight: 500;
+			color: #334155;
+			border-bottom: 1px solid #e5e7eb;
+		}
+
+		.office-table td {
+			color: #111827;
+			border-bottom: 1px solid #edf0f4;
+		}
+
+		.office-table tbody tr:last-child td {
+			border-bottom: 0;
+		}
+
+		.office-summary-grid {
+			display: grid;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 14px;
+			margin-top: 18px;
+		}
+
+		.office-summary-card {
+			background: #ffffff;
+			border-radius: 12px;
+			border: 1px solid #e8ecf1;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+			padding: 14px;
+		}
+
+		.office-summary-name {
+			margin: 0;
+			font-size: 14px;
+			color: #1f2937;
+		}
+
+		.office-summary-count {
+			margin: 10px 0 2px;
+			font-size: 30px;
+			line-height: 1;
+			font-weight: 500;
+			color: #111827;
+		}
+
+		.office-summary-label {
+			font-size: 13px;
+			color: #374151;
+		}
+
+		@media (max-width: 1200px) {
+			.office-summary-grid {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+			}
+		}
+
+		@media (max-width: 700px) {
+			.header-row {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+
+			.office-summary-grid {
+				grid-template-columns: 1fr;
+			}
+		}
 	</style>
 </head>
 <body>
@@ -553,14 +666,69 @@
 						</tbody>
 					</table>
 				</section>
+			@elseif ($activeSection === 'offices')
+				<div class="header-row">
+					<h1 class="page-title">Office User Management</h1>
+					<button type="button" class="add-guard-btn">
+						<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+							<circle cx="10" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+							<path d="M22 8h-6M19 5v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+						</svg>
+						Add Office User
+					</button>
+				</div>
+
+				<section class="office-card">
+					<div class="office-card-head">
+						<h2 class="office-title">
+							<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M4 21h16M7 21V6h10v15M10 9h1M13 9h1M10 12h1M13 12h1M10 15h1M13 15h1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+							</svg>
+							Office User Accounts
+						</h2>
+						<p class="office-total">Total Users: 8 across 8 offices</p>
+					</div>
+
+					<table class="office-table" aria-label="Office user accounts table">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Email</th>
+								<th>Office</th>
+								<th>Position</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr><td>Sarah Johnson</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>jsarah@gmail.com</span></td><td><span class="badge-pill">Registrar's Office</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
+							<tr><td>Michael Chen</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>cmichael@gmail.com</span></td><td><span class="badge-pill">ITSO</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
+							<tr><td>Emily Davis</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>demily@gmail.com</span></td><td><span class="badge-pill">Treasury Office</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
+							<tr><td>James Wilson</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>wjames@gmail.com</span></td><td><span class="badge-pill">SDAO</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
+							<tr><td>Lisa Anderson</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>alisa@gmail.com</span></td><td><span class="badge-pill">FAO</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
+							<tr><td>Robert Taylor</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>trobert@gmail.com</span></td><td><span class="badge-pill">Admissions Office</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
+							<tr><td>Jennifer Lee</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>jennifer@gmail.com</span></td><td><span class="badge-pill">Guidance Services Office</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
+							<tr><td>David Garcia</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>gdavid@gmail.com</span></td><td><span class="badge-pill">HR Office</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
+						</tbody>
+					</table>
+				</section>
+
+				<div class="office-summary-grid">
+					<div class="office-summary-card"><p class="office-summary-name">Registrar's Office</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
+					<div class="office-summary-card"><p class="office-summary-name">ITSO</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
+					<div class="office-summary-card"><p class="office-summary-name">Treasury Office</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
+					<div class="office-summary-card"><p class="office-summary-name">SDAO</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
+					<div class="office-summary-card"><p class="office-summary-name">FAO</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
+					<div class="office-summary-card"><p class="office-summary-name">Admissions Office</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
+					<div class="office-summary-card"><p class="office-summary-name">Guidance Services Office</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
+					<div class="office-summary-card"><p class="office-summary-name">HR Office</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
+				</div>
 			@else
 				<h1 class="page-title">
-					{{ $activeSection === 'offices' ? 'Offices' : 'User Management' }}
+					User Management
 				</h1>
 				<p class="page-subtitle">
-					{{ $activeSection === 'offices'
-						? 'Manage office user accounts from this section.'
-						: 'Manage user accounts from this section.' }}
+					Manage user accounts from this section.
 				</p>
 			@endif
 		</main>
