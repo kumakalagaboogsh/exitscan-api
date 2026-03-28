@@ -501,11 +501,15 @@
 						<path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-3.866 0-7 2.015-7 4.5V20h14v-1.5c0-2.485-3.134-4.5-7-4.5Z" fill="currentColor"/>
 					</svg>
 				</div>
+
+
 				<div>
 					<p class="brand-title"><span>SVMS</span><span>Admin</span></p>
 					<p class="brand-subtitle">Smart Visitor Monitoring System</p>
 				</div>
 			</div>
+
+
 
 			<nav class="menu" aria-label="Sidebar Navigation">
 				<a href="/admin/dashboard" class="menu-item">
@@ -584,13 +588,27 @@
 			@if ($activeSection === 'guards')
 				<div class="header-row">
 					<h1 class="page-title">Guard Management</h1>
-					<button type="button" class="add-guard-btn">
+						<button type="button" id="openAddGuardBtn" class="add-guard-btn">
 						<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
 						</svg>
 						Add Guard
 					</button>
 				</div>
+
+				@if(session('success'))
+					<div style="margin:12px 0;padding:10px;border-radius:8px;background:#ecfdf5;color:#065f46;">{{ session('success') }}</div>
+				@endif
+
+				@if($errors->any())
+					<div style="margin:12px 0;padding:10px;border-radius:8px;background:#fff1f2;color:#9f1239;">
+						<ul style="margin:0;padding-left:18px;">
+							@foreach($errors->all() as $err)
+								<li>{{ $err }}</li>
+							@endforeach
+						</ul>
+					</div>
+				@endif
 
 				<section class="guard-card">
 					<div class="guard-card-head">
@@ -600,7 +618,7 @@
 							</svg>
 							Guard Accounts
 						</h2>
-						<p class="guard-total">Total Guards: 4</p>
+						<p class="guard-total">Total Guards: {{ isset($guards) ? count($guards) : 0 }}</p>
 					</div>
 
 					<table class="guard-table" aria-label="Guard accounts table">
@@ -614,55 +632,32 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>Officer Martinez</td>
-								<td>
-									<span class="email-cell">
-										<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
-											<path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-										</svg>
-										martinez@gmail.com
-									</span>
-								</td>
-								<td><span class="badge-pill">GRD-001</span></td>
-								<td>Lobby</td>
-								<td>
-									<span class="action-icons">
-										<svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-											<path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-										</svg>
-										<svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-										</svg>
-									</span>
-								</td>
-							</tr>
-
-							<tr>
-								<td>Officer Chen</td>
-								<td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>chen@gmail.com</span></td>
-								<td><span class="badge-pill">GRD-002</span></td>
-								<td>Lobby</td>
-								<td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
-							</tr>
-
-							<tr>
-								<td>Officer Williams</td>
-								<td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>williams@mail.com</span></td>
-								<td><span class="badge-pill">GRD-003</span></td>
-								<td>Lobby</td>
-								<td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
-							</tr>
-
-							<tr>
-								<td>Officer Brown</td>
-								<td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>brown@gmail.com</span></td>
-								<td><span class="badge-pill">GRD-004</span></td>
-								<td>Lobby</td>
-								<td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
-							</tr>
+							@forelse($guards ?? [] as $guard)
+								<tr>
+									<td>{{ $guard->name }}</td>
+									<td>
+										<span class="email-cell">
+											<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+												<path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+											</svg>
+											{{ $guard->email }}
+										</span>
+									</td>
+									<td><span class="badge-pill">{{ $guard->badge_number ?? $guard->badge ?? '' }}</span></td>
+									<td>{{ $guard->station ?? '—' }}</td>
+									<td>
+										<span class="action-icons">
+											<img src="{{ asset('picture/bx_edit.png') }}" alt="Edit" class="action-edit" style="width:14z`px;height:14px;" />
+											<img src="{{ asset('picture/Vector.png') }}" alt="Delete" class="action-delete" style="width:14px;height:14px;" />
+										</span>
+									</td>
+								</tr>
+							@empty
+								<tr>
+									<td colspan="5" style="text-align:center;color:#64748b;padding:18px;">No guards found.</td>
+								</tr>
+							@endforelse
 						</tbody>
 					</table>
 				</section>
@@ -701,27 +696,59 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr><td>Sarah Johnson</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>jsarah@gmail.com</span></td><td><span class="badge-pill">Registrar's Office</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
-							<tr><td>Michael Chen</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>cmichael@gmail.com</span></td><td><span class="badge-pill">ITSO</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
-							<tr><td>Emily Davis</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>demily@gmail.com</span></td><td><span class="badge-pill">Treasury Office</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
-							<tr><td>James Wilson</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>wjames@gmail.com</span></td><td><span class="badge-pill">SDAO</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
-							<tr><td>Lisa Anderson</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>alisa@gmail.com</span></td><td><span class="badge-pill">FAO</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
-							<tr><td>Robert Taylor</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>trobert@gmail.com</span></td><td><span class="badge-pill">Admissions Office</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
-							<tr><td>Jennifer Lee</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>jennifer@gmail.com</span></td><td><span class="badge-pill">Guidance Services Office</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
-							<tr><td>David Garcia</td><td><span class="email-cell"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>gdavid@gmail.com</span></td><td><span class="badge-pill">HR Office</span></td><td>Manager</td><td><span class="action-icons"><svg class="action-edit" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.5 7.5 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="action-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-2h6l1 2M7 7v12h10V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
+							@forelse($offices ?? [] as $office)
+								<tr>
+									<td>{{ $office->name ?? ($office->first_name ? ($office->first_name . ' ' . ($office->last_name ?? '')) : ($office->full_name ?? '')) }}</td>
+									<td>
+										<span class="email-cell">
+											<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+												<path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+											</svg>
+											{{ $office->email ?? '' }}
+										</span>
+									</td>
+									<td><span class="badge-pill">{{ $office->office_name ?? $office->office ?? '—' }}</span></td>
+									<td>{{ $office->position ?? '—' }}</td>
+									<td>
+										<span class="action-icons">
+											<img src="{{ asset('picture/bx_edit.png') }}" alt="Edit" class="action-edit" style="width:14px;height:14px;" />
+											<img src="{{ asset('picture/Vector.png') }}" alt="Delete" class="action-delete" style="width:14px;height:14px;" />
+										</span>
+									</td>
+								</tr>
+							@empty
+								<tr>
+									<td colspan="5" style="text-align:center;color:#64748b;padding:18px;">No users found.</td>
+								</tr>
+							@endforelse
 						</tbody>
 					</table>
 				</section>
 
 				<div class="office-summary-grid">
-					<div class="office-summary-card"><p class="office-summary-name">Registrar's Office</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
-					<div class="office-summary-card"><p class="office-summary-name">ITSO</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
-					<div class="office-summary-card"><p class="office-summary-name">Treasury Office</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
-					<div class="office-summary-card"><p class="office-summary-name">SDAO</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
-					<div class="office-summary-card"><p class="office-summary-name">FAO</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
-					<div class="office-summary-card"><p class="office-summary-name">Admissions Office</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
-					<div class="office-summary-card"><p class="office-summary-name">Guidance Services Office</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
-					<div class="office-summary-card"><p class="office-summary-name">HR Office</p><p class="office-summary-count">1</p><span class="office-summary-label">Active users</span></div>
+					@php
+						// Build office summary (group by office name and count users). Works when $offices is a collection or array of objects.
+						$officeSummaries = collect($offices ?? [])->groupBy(function($item) {
+							return data_get($item, 'office_name') ?? data_get($item, 'office') ?? 'Unknown Office';
+						})->map(function($group, $name) {
+							return ['name' => $name, 'count' => count($group)];
+						})->values();
+					@endphp
+
+					@forelse($officeSummaries as $os)
+						<div class="office-summary-card">
+							<p class="office-summary-name">{{ $os['name'] }}</p>
+							<p class="office-summary-count">{{ $os['count'] }}</p>
+							<span class="office-summary-label">Active users</span>
+						</div>
+					@empty
+						<div class="office-summary-card">
+							<p class="office-summary-name">No offices</p>
+							<p class="office-summary-count">0</p>
+							<span class="office-summary-label">Active users</span>
+						</div>
+					@endforelse
 				</div>
 			@else
 				<h1 class="page-title">
@@ -744,6 +771,110 @@
 				userMenuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 			});
 		}
+
+		// Modal open/close and form handling for Add Guard
+		(function() {
+			const addBtn = document.getElementById('openAddGuardBtn');
+
+			function getModal() { return document.getElementById('addGuardModal'); }
+			function getCloseBtn() { const m = getModal(); return m ? m.querySelector('#closeAddGuard') : null; }
+			function getCancelBtn() { const m = getModal(); return m ? m.querySelector('#cancelAddGuard') : null; }
+			function getForm() { return document.getElementById('addGuardForm'); }
+			function getHiddenFullName() { return document.getElementById('fullNameHidden'); }
+
+			function showModal() {
+				const modal = getModal();
+				if (!modal) return;
+				modal.style.display = 'flex';
+				const first = modal.querySelector('input[name="first_name"]');
+				if (first) first.focus();
+				// attach backdrop close listener if not already attached
+				if (!modal._backdropAttached) {
+					modal.addEventListener('click', (e) => {
+						if (e.target === modal) hideModal();
+					});
+					modal._backdropAttached = true;
+				}
+			}
+
+			function hideModal() {
+				const modal = getModal();
+				if (!modal) return;
+				modal.style.display = 'none';
+			}
+
+			if (addBtn) addBtn.addEventListener('click', showModal);
+			// close and cancel may be added later when modal exists; delegate via event listener on document
+			document.addEventListener('click', (e) => {
+				if (e.target && e.target.id === 'closeAddGuard') hideModal();
+				if (e.target && e.target.id === 'cancelAddGuard') hideModal();
+			});
+
+			// on submit, combine first and last into hidden `name` so backend still receives `name`
+			document.addEventListener('submit', (e) => {
+				if (e.target && e.target.id === 'addGuardForm') {
+					const form = e.target;
+					const fn = form.querySelector('input[name="first_name"]')?.value?.trim() || '';
+					const ln = form.querySelector('input[name="last_name"]')?.value?.trim() || '';
+					const hiddenFullName = getHiddenFullName();
+					if (hiddenFullName) hiddenFullName.value = (fn + (fn && ln ? ' ' : '') + ln).trim();
+					// allow submit to proceed
+				}
+			});
+		})();
 	</script>
-</body>
-</html>
+
+	<!-- Add Guard Modal -->
+	<div id="addGuardModal" style="display:none; position:fixed; inset:0; background:rgba(2,6,23,0.6); align-items:center; justify-content:center; z-index:80;">
+		<div role="dialog" aria-modal="true" aria-labelledby="addGuardTitle" style="background:#fff;border-radius:10px; width:520px; max-width:94%; padding:20px; box-shadow:0 10px 30px rgba(2,6,23,0.35);">
+			<div style="display:flex; justify-content:space-between; align-items:center;">
+				<h3 id="addGuardTitle" style="margin:0; font-size:18px;">Add Guard Account</h3>
+				<button id="closeAddGuard" aria-label="Close" style="border:0;background:transparent;font-size:22px;cursor:pointer;line-height:1;color:#374151;">&times;</button>
+			</div>
+
+
+			@if($errors->any())
+				<div style="margin:12px 0;padding:10px;border-radius:8px;background:#fff1f2;color:#9f1239;">
+					<ul style="margin:0;padding-left:18px;">
+						@foreach($errors->all() as $err)
+							<li>{{ $err }}</li>
+						@endforeach
+					</ul>
+				</div>
+			@endif
+			<p style="color:#6b7280;margin:8px 0 14px;">Create a new security guard account for the system.</p>
+			<form id="addGuardForm" method="POST" action="/admin/user/guards">
+				@csrf
+				<div style="display:flex;gap:10px;">
+					<div style="flex:1;">
+						<label style="font-size:13px;color:#334155;">First Name</label>
+						<input name="first_name" type="text" required style="width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:6px;margin-top:6px;">
+					</div>
+					<div style="flex:1;">
+						<label style="font-size:13px;color:#334155;">Last Name</label>
+						<input name="last_name" type="text" required style="width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:6px;margin-top:6px;">
+					</div>
+				</div>
+				<input type="hidden" name="name" id="fullNameHidden">
+				<div style="margin-top:10px;">
+					<label style="font-size:13px;color:#334155;">Email</label>
+					<input name="email" type="email" required style="width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:6px;margin-top:6px;">
+				</div>
+				<div style="margin-top:10px;">
+					<label style="font-size:13px;color:#334155;">Badge Number</label>
+					<input name="badge_number" type="text" style="width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:6px;margin-top:6px;">
+				</div>
+				<div style="margin-top:10px;">
+					<label style="font-size:13px;color:#334155;">Station</label>
+					<input name="station" type="text" style="width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:6px;margin-top:6px;">
+				</div>
+				<div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
+					<button type="button" id="cancelAddGuard" style="background:#ecedf2;border-radius:8px;padding:8px 14px;border:0;cursor:pointer;color:#0f172a;">Cancel</button>
+					<button type="submit" style="background:#4b5cd1;color:#fff;border-radius:8px;padding:8px 14px;border:0;cursor:pointer;">Add User</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	</body>
+	</html>

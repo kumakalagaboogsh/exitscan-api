@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['first_name','last_name','name', 'email', 'password','password_hash'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -29,4 +29,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Primary key name used by the users table on Supabase
+     */
+    protected $primaryKey = 'user_id';
+
+    /**
+     * Allow mass assignment for common user columns.
+     */
+    protected $fillable = ['first_name', 'last_name', 'name', 'email', 'password', 'password_hash', 'role_id'];
 }

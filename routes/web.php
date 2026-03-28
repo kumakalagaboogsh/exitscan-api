@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GuardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,9 +23,10 @@ Route::get('/admin/user', function () {
     return view('admin.user');
 });
 
-Route::get('/admin/user/guards', function () {
-    return view('admin.user', ['section' => 'guards']);
-});
+Route::get('/admin/user/guards', [App\Http\Controllers\GuardController::class, 'index']);
+
+// handle add guard POST
+Route::post('/admin/user/guards', [GuardController::class, 'store']);
 
 Route::get('/admin/user/offices', function () {
     return view('admin.user', ['section' => 'offices']);
