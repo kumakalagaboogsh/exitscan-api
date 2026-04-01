@@ -183,11 +183,163 @@
 			overflow-y: auto;
 		}
 
+		.exit-content {
+			min-height: calc(100vh - 48px);
+			max-width: 720px;
+			margin: 0 auto;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			padding: 18px 0;
+		}
+
 		.page-title {
 			margin: 0;
 			font-size: 28px;
 			font-weight: 700;
 			color: #0f172a;
+			text-align: center;
+		}
+
+		.page-subtitle {
+			margin: 6px 0 16px;
+			font-size: 14px;
+			color: #475569;
+			text-align: center;
+		}
+
+		.exit-panel {
+			width: 100%;
+			background: #ffffff;
+			border: 1px solid #d9dde4;
+			border-radius: 14px;
+			padding: 16px;
+			box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18);
+		}
+
+		.scanner-zone {
+			position: relative;
+			overflow: hidden;
+			background: #d9dee6;
+			border-radius: 10px;
+			padding: 50px 32px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 380px;
+		}
+
+		.camera-feed {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: none;
+			background: #cbd2dc;
+		}
+
+		.scanner-zone.camera-on .camera-feed {
+			display: block;
+		}
+
+		.scanner-overlay {
+			position: relative;
+			z-index: 2;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.qr-guide {
+			width: 250px;
+			height: 250px;
+			position: relative;
+			border-radius: 16px;
+			background: transparent;
+		}
+
+		.qr-guide .corner {
+			position: absolute;
+			width: 44px;
+			height: 44px;
+			border-color: #3f4a9f;
+			border-style: solid;
+			pointer-events: none;
+		}
+
+		.qr-guide .corner.tl {
+			top: 0;
+			left: 0;
+			border-width: 5px 0 0 5px;
+			border-top-left-radius: 16px;
+		}
+
+		.qr-guide .corner.tr {
+			top: 0;
+			right: 0;
+			border-width: 5px 5px 0 0;
+			border-top-right-radius: 16px;
+		}
+
+		.qr-guide .corner.bl {
+			bottom: 0;
+			left: 0;
+			border-width: 0 0 5px 5px;
+			border-bottom-left-radius: 16px;
+		}
+
+		.qr-guide .corner.br {
+			bottom: 0;
+			right: 0;
+			border-width: 0 5px 5px 0;
+			border-bottom-right-radius: 16px;
+		}
+
+		.camera-status {
+			margin: 10px 0 0;
+			font-size: 14px;
+			color: #475569;
+			text-align: center;
+		}
+
+		.scan-result {
+			margin: 10px 0 0;
+			font-size: 14px;
+			text-align: center;
+			min-height: 20px;
+		}
+
+		.scan-result.success {
+			color: #15803d;
+		}
+
+		.scan-result.error {
+			color: #dc2626;
+		}
+
+		.scan-button {
+			width: min(100%, 380px);
+			margin: 16px auto 4px;
+			height: 56px;
+			border: 0;
+			border-radius: 10px;
+			background: #3f4a9f;
+			color: #f8faff;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			font-size: 16px;
+			font-weight: 500;
+			cursor: pointer;
+		}
+
+		.scan-button svg {
+			width: 20px;
+			height: 20px;
 		}
 
 		@media (max-width: 1024px) {
@@ -214,6 +366,30 @@
 
 			.brand-title span:last-child {
 				font-size: 20px;
+			}
+
+			.exit-content {
+				min-height: auto;
+				max-width: none;
+				padding: 0;
+			}
+
+			.exit-panel {
+				padding: 10px;
+			}
+
+			.scanner-zone {
+				padding: 28px 12px;
+				min-height: 260px;
+			}
+
+			.qr-guide {
+				width: 180px;
+				height: 180px;
+			}
+
+			.scan-button {
+				height: 54px;
 			}
 		}
 	</style>
@@ -300,8 +476,237 @@
 		</aside>
 
 		<main class="main">
-			<h1 class="page-title">Exit Scan</h1>
+			<div class="exit-content">
+				<h1 class="page-title">Exit Scan</h1>
+				<p class="page-subtitle">Process visitor exit</p>
+
+				<section class="exit-panel" aria-label="Exit Scanner">
+					<div class="scanner-zone">
+						<video id="cameraFeed" class="camera-feed" autoplay playsinline muted></video>
+						<div class="scanner-overlay">
+							<div class="qr-guide" aria-hidden="true">
+								<span class="corner tl"></span>
+								<span class="corner tr"></span>
+								<span class="corner bl"></span>
+								<span class="corner br"></span>
+							</div>
+						</div>
+					</div>
+					<p class="camera-status" id="cameraStatus">Starting camera...</p>
+					<p class="scan-result" id="scanResult" aria-live="polite"></p>
+
+					<button type="button" class="scan-button" id="scanButton">
+						<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+							<path d="M4 7V4h3M17 4h3v3M4 17v3h3M20 17v3h-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+							<path d="M8 8h2v2H8zM11 8h2v2h-2zM14 8h2v2h-2zM8 11h2v2H8zM12 11h1v1h-1zM14 11h2v2h-2zM8 14h2v2H8zM11 14h2v2h-2zM14 14h2v2h-2z" fill="currentColor"/>
+						</svg>
+						<span id="scanButtonText">Scan Exit QR</span>
+					</button>
+					<canvas id="scanCanvas" style="display:none;"></canvas>
+				</section>
+			</div>
 		</main>
 	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+	<script>
+		const scannerZone = document.querySelector('.scanner-zone');
+		const cameraFeed = document.getElementById('cameraFeed');
+		const scanButton = document.getElementById('scanButton');
+		const scanButtonText = document.getElementById('scanButtonText');
+		const cameraStatus = document.getElementById('cameraStatus');
+		const scanResult = document.getElementById('scanResult');
+		const scanCanvas = document.getElementById('scanCanvas');
+		const canvasContext = scanCanvas.getContext('2d', { willReadFrequently: true });
+		const csrfToken = '{{ csrf_token() }}';
+
+		let activeStream = null;
+		let barcodeDetector = null;
+		let scanTimer = null;
+		let isProcessingScan = false;
+		let lastProcessedQr = '';
+		let resumeScanTimeout = null;
+
+		if ('BarcodeDetector' in window) {
+			try {
+				barcodeDetector = new BarcodeDetector({ formats: ['qr_code'] });
+			} catch (error) {
+				barcodeDetector = null;
+			}
+		}
+
+		const setScannerState = (isOn, message) => {
+			scannerZone.classList.toggle('camera-on', isOn);
+			scanButtonText.textContent = isOn ? 'Scan Exit QR' : 'Retry Camera';
+			cameraStatus.textContent = message;
+			scanButton.disabled = false;
+		};
+
+		const setResult = (message, type = '') => {
+			scanResult.textContent = message;
+			scanResult.className = 'scan-result';
+			if (type) {
+				scanResult.classList.add(type);
+			}
+		};
+
+		const resetScanLoop = () => {
+			if (scanTimer) {
+				clearInterval(scanTimer);
+				scanTimer = null;
+			}
+		};
+
+		const releaseCamera = () => {
+			resetScanLoop();
+			if (resumeScanTimeout) {
+				clearTimeout(resumeScanTimeout);
+				resumeScanTimeout = null;
+			}
+
+			if (!activeStream) {
+				return;
+			}
+
+			activeStream.getTracks().forEach((track) => track.stop());
+			activeStream = null;
+			cameraFeed.srcObject = null;
+		};
+
+		const processQrData = async (qrData) => {
+			if (!qrData || isProcessingScan || qrData === lastProcessedQr) {
+				return;
+			}
+
+			isProcessingScan = true;
+			lastProcessedQr = qrData;
+			setResult('QR detected. Processing exit...', '');
+
+			try {
+				const response = await fetch('/guard/exit/scan', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Accept': 'application/json',
+						'X-CSRF-TOKEN': csrfToken
+					},
+					body: JSON.stringify({ qr_data: qrData })
+				});
+
+				const payload = await response.json();
+				if (!response.ok || payload.status !== 'ok') {
+					throw new Error(payload.message || 'Unable to process scanned QR.');
+				}
+
+				setResult(payload.message + ' (' + payload.qr_data + ')', 'success');
+				cameraStatus.textContent = 'Scan completed. Ready for next QR.';
+			} catch (error) {
+				lastProcessedQr = '';
+				setResult(error.message || 'Scan failed. Please try again.', 'error');
+			}
+
+			isProcessingScan = false;
+			if (resumeScanTimeout) {
+				clearTimeout(resumeScanTimeout);
+			}
+
+			resumeScanTimeout = setTimeout(() => {
+				lastProcessedQr = '';
+				setResult('');
+			}, 3000);
+		};
+
+		const detectWithJsQr = () => {
+			if (!window.jsQR || !cameraFeed.videoWidth || !cameraFeed.videoHeight) {
+				return;
+			}
+
+			scanCanvas.width = cameraFeed.videoWidth;
+			scanCanvas.height = cameraFeed.videoHeight;
+			canvasContext.drawImage(cameraFeed, 0, 0, scanCanvas.width, scanCanvas.height);
+			const imageData = canvasContext.getImageData(0, 0, scanCanvas.width, scanCanvas.height);
+			const decoded = window.jsQR(imageData.data, imageData.width, imageData.height, {
+				inversionAttempts: 'dontInvert'
+			});
+
+			if (decoded && decoded.data) {
+				processQrData(decoded.data);
+			}
+		};
+
+		const detectWithBarcodeDetector = async () => {
+			if (!barcodeDetector || !cameraFeed.videoWidth || !cameraFeed.videoHeight) {
+				return false;
+			}
+
+			try {
+				const detections = await barcodeDetector.detect(cameraFeed);
+				if (detections.length > 0 && detections[0].rawValue) {
+					processQrData(detections[0].rawValue);
+					return true;
+				}
+			} catch (error) {
+				// Fallback to jsQR on detector errors.
+			}
+
+			return false;
+		};
+
+		const startScanLoop = () => {
+			resetScanLoop();
+			scanTimer = setInterval(async () => {
+				if (!activeStream || isProcessingScan) {
+					return;
+				}
+
+				const detected = await detectWithBarcodeDetector();
+				if (!detected) {
+					detectWithJsQr();
+				}
+			}, 350);
+		};
+
+		const startCamera = async () => {
+			if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+				setScannerState(false, 'Camera access is not supported in this browser.');
+				return;
+			}
+
+			try {
+				releaseCamera();
+
+				const stream = await navigator.mediaDevices.getUserMedia({
+					video: { facingMode: 'environment' },
+					audio: false
+				});
+
+				activeStream = stream;
+				cameraFeed.srcObject = stream;
+				setScannerState(true, 'Scanner is ready. Position the QR inside the frame.');
+				setResult('');
+				startScanLoop();
+			} catch (error) {
+				setScannerState(false, 'Camera permission denied or unavailable. Click Retry Camera after allowing access.');
+				setResult('Camera is required for QR scanning.', 'error');
+			}
+		};
+
+		scanButton?.addEventListener('click', () => {
+			if (!activeStream) {
+				startCamera();
+				return;
+			}
+
+			cameraStatus.textContent = 'Scanner is live. Align QR code inside the frame.';
+			setResult('Waiting for QR code...');
+			lastProcessedQr = '';
+		});
+
+		window.addEventListener('beforeunload', () => {
+			releaseCamera();
+		});
+
+		startCamera();
+	</script>
 </body>
 </html>
