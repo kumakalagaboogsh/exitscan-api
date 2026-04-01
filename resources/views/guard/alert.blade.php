@@ -127,6 +127,66 @@
 			background: rgba(255, 255, 255, 0.08);
 		}
 
+		.menu-group {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+		}
+
+		.menu-toggle {
+			width: 100%;
+			border: 0;
+			background: transparent;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.menu-toggle.active {
+			background: var(--sidebar-bg-light);
+			color: var(--text-yellow);
+		}
+
+		.menu-toggle .caret {
+			width: 16px;
+			height: 16px;
+			transition: transform 0.2s ease;
+		}
+
+		.menu-group.open .menu-toggle .caret {
+			transform: rotate(180deg);
+		}
+
+		.submenu {
+			display: none;
+			flex-direction: column;
+			gap: 4px;
+			margin-left: 34px;
+		}
+
+		.menu-group.open .submenu {
+			display: flex;
+		}
+
+		.submenu-item {
+			text-decoration: none;
+			color: var(--text-white);
+			font-size: 14px;
+			font-weight: 500;
+			padding: 6px 10px;
+			border-radius: 6px;
+		}
+
+		.submenu-item:hover {
+			background: rgba(255, 255, 255, 0.08);
+		}
+
+		.submenu-item.active {
+			background: var(--sidebar-bg-light);
+			color: var(--text-yellow);
+		}
+
 		.spacer {
 			flex: 1;
 		}
@@ -431,15 +491,25 @@
 					</span>
 				</a>
 
-				<a href="/guard/register" class="menu-item">
-					<span class="inner">
-						<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-3.866 0-7 2.015-7 4.5V20h14v-1.5c0-2.485-3.134-4.5-7-4.5Z" fill="currentColor"/>
-							<path d="M5 5h5M7.5 2.5v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+				<div class="menu-group" id="registerMenuGroup">
+					<button type="button" class="menu-item menu-toggle" id="registerMenuToggle" aria-expanded="false" aria-controls="registerSubmenu">
+						<span class="inner">
+							<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-3.866 0-7 2.015-7 4.5V20h14v-1.5c0-2.485-3.134-4.5-7-4.5Z" fill="currentColor"/>
+								<path d="M5 5h5M7.5 2.5v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+							</svg>
+							Register
+						</span>
+						<svg class="caret" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+							<path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 						</svg>
-						Register Visitor
-					</span>
-				</a>
+					</button>
+					<div class="submenu" id="registerSubmenu">
+						<a href="/guard/register?type=normal" class="submenu-item">Normal Visitor</a>
+						<a href="/guard/register?type=enrollee" class="submenu-item">Enrollee</a>
+						<a href="/guard/register?type=contractor" class="submenu-item">Contractor</a>
+					</div>
+				</div>
 
 				<a href="/guard/exit" class="menu-item">
 					<span class="inner">
@@ -541,5 +611,17 @@
 			</section>
 		</main>
 	</div>
+
+	<script>
+		const registerMenuGroup = document.getElementById('registerMenuGroup');
+		const registerMenuToggle = document.getElementById('registerMenuToggle');
+
+		if (registerMenuGroup && registerMenuToggle) {
+			registerMenuToggle.addEventListener('click', () => {
+				const isOpen = registerMenuGroup.classList.toggle('open');
+				registerMenuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+			});
+		}
+	</script>
 </body>
 </html>
