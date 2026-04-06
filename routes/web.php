@@ -44,6 +44,8 @@ Route::get('/guard/exit', function () {
     return view('guard.exit');
 });
 
+Route::post('/guard/exit/scan', [GuardController::class, 'scanExit']);
+
 Route::get('/guard/alert', function () {
     return view('guard.alert');
 });

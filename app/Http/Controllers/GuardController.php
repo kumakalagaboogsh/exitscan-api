@@ -137,4 +137,20 @@ class GuardController extends Controller
             return redirect()->back()->withErrors(['error' => 'Failed to create guard: ' . $e->getMessage()]);
         }
     }
+
+    /**
+     * Handle exit scan payloads from the guard scanner page.
+     */
+    public function scanExit(Request $request)
+    {
+        $data = $request->validate([
+            'qr_data' => ['required', 'string', 'max:2000'],
+        ]);
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'Exit QR scanned successfully.',
+            'qr_data' => $data['qr_data'],
+        ]);
+    }
 }
